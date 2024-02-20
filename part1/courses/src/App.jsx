@@ -1,61 +1,108 @@
-const Header = (props) => {
-  return <h1>{props.course}</h1>;
+const Header = ({ text }) => {
+  return <h1>{text}</h1>;
 };
 
+const Content = ({ parts}) => {
+  const numberOfExercises = parts.map((part) => part.exercises)
+  console.log(numberOfExercises);
+  const sumOfExercises = numberOfExercises.reduce((previous, corrent) => previous + corrent);
+  console.log(sumOfExercises, 'suma');
+  //console.log(parts, 'content');
+  return (
+    <>
+      {parts.map((part) => (
+        <Part key={part.id} part={part} />
+      ))}
+      <h3>Total number of exercises {sumOfExercises}</h3>
+    </>
+      
+  ); 
+};
 
-const Content = (props) => {
+const Course = ({ course }) => {
+  const{name,parts}=course
+  return (
+    <>
+      <Header text={name} />
+      <Content parts={parts}  />
+    </>
+  );
+};
+
+const Part = ({ part }) => {
   return (
     <>
       <p>
-        {props.part1} {props.exercises1}
-      </p>
-      <p>
-        {props.part2} {props.exercises2}
-      </p>
-      <p>
-        {props.part3} {props.exercises3}
+        {part.name} {part.exercises}
       </p>
     </>
   );
 };
 
-const Total = (props) =>{
-  return(
-    <>
-    <p>
-    Number of exercises {props.total}
-    </p>
-    </>
-    
-  )
-}
-
 const App = () => {
-  const course = 'Half Stack application development'
-  const parts = [
+  const courses = [
     {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
+      name: 'Half Stack application development',
+      id: 1,
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4
+        }
+      ]
+    }, 
     {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
     }
   ]
 
+  
   return (
-    <div>
-      <Header course={course} />
-      <Header course={course} />
-      <Content parts={parts} />
-      <Total parts={parts} />
+    <>
+    {courses.map((course)=>
+    <Course key={course.id} course={course}/>
+    )}
+    </> 
+  );
 
-    </div>
-  )
-}
+};
 
-export default App
+export default App;
+// - sustituir componente app
+// - Definir componente course
+// - Definir componente part
+//App
+  //Course
+    //Header
+    //Content
+      //Part
+      //Part
